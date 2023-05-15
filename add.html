@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Add Records</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="css1/style.css">
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+            <div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Records</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-12">
+					<div class="wrapper">
+						<div class="row no-gutters">
+							<div class="col-lg-6">
+								<div class="contact-wrap w-100 p-md-5 p-4">
+								
+						          </div>
+										</div>
+									</div>
+									<form name="add" class="add">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="text" class="form-control" name="name" id="namein" placeholder="Name">
+												</div>
+											</div>
+											<div class="col-md-12"> 
+												<div class="form-group">
+													<input type="number" class="form-control" name="age" id="agein" placeholder="age">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="text" class="form-control" name="Race" id="Racein" placeholder="Race">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="text" class="form-control" name="status" id="statusin" placeholder="Dead/Alive">
+											</div>
+                                            <div class="col-md-12">
+												<div class="form-group">
+													<input type="text" class="form-control" name="differentiate" id="differentiatein" placeholder="Well/Poor/moderate">
+											</div>
+                                            <div class="col-md-12">
+												<div class="form-group">
+													<input type="text" class="form-control" name="size" id="sizein" placeholder="Enter Tumor Size">
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+                                                    <button>Add</button>
+													
+                                
+                                                    <div>
+                                                        <a href="dashboard.html"> Back</a>
+                                                    </div>
+												</div>
+											</div>
+										</div>
+									</form>
+									</div>
+								</div>
+							</div>
+							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.validate.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
+
+  <script type="module">
+
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js';
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      GoogleAuthProvider,
+      signInWithRedirect,
+      getRedirectResult,
+      signInWithPopup,
+      onAuthStateChanged,
+    }
+      from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js';
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      connectFirestoreEmulator,
+      query,
+      getDocs,
+      getDoc,
+      updateDoc,
+      setDoc,
+      doc,
+      onSnapshot,
+      deleteDoc,
+      orderBy
+    } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js';
+
+    // Import the functions you need from the SDKs you need
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+    apiKey: "AIzaSyDf39R3blGp39tn4ySNSNUXIUXA_wSvOu8",
+    authDomain: "cancer-4c45d.firebaseapp.com",
+    projectId: "cancer-4c45d",
+    storageBucket: "cancer-4c45d.appspot.com",
+    messagingSenderId: "52018598388",
+    appId: "1:52018598388:web:8d3ab00e32cea4daa3a9a1",
+    measurementId: "G-SVBN7TFVG6"
+     };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const provider = new GoogleAuthProvider();
+    // const provider2 = new FacebookAuthProvider();
+    // const auth = getAuth();
+    console.log(app)
+
+    //Firestore
+    const db = getFirestore(app);
+    const coll = collection(db,'PatientRec');
+   
+// ADD Record
+
+const Add = document.querySelector(".add");
+
+Add.addEventListener('submit',(e) =>{
+    e.preventDefault()
+
+    addDoc(coll,{
+        name:Add.namein.value,
+        age:Add.agein.value,
+        race:Add.Racein.value,
+        status:Add.statusin.value,
+        differentiate:Add.differentiatein.value,
+        Tsize:Add.sizein.value,
+    })
+    .then(() => {
+        alert(" Add successfully!!!");
+        Add.reset();
+
+    })
+})
+
+const del = document.querySelector('.DELETE');
+del.addEventListener('submit',(e) =>{
+e.preventDefault()
+
+    const cof= doc(db,'PatientRec',del.namein.value)
+
+    deleteDoc(cof)
+    .then(() =>{
+        alert(" Deleted successfully!!!");
+        cof.reset();
+    }
+    )
+})
+
+  </script>
+
+	</body>
+</html>
